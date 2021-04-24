@@ -9,12 +9,11 @@ def monte_carlo_call(iterations, stock = 250, strike = 260, rf= 0.08, q = 0.03, 
     stdv = vol*m.sqrt(T)
 
     for i in range(iterations):
-        stock_price.append(stock*m.exp(np.random.normal(mean, stdv))) #drawing random variable from normal dostribution
+        stock_price.append(stock*m.exp(np.random.normal(mean, stdv))) #drawing random variable from normal distribution
         call_payout.append(max(0,stock_price[i]-strike)) 
-        #print(call_payout[i])
     
-    expected_call = sum(call_payout)/iterations
-    discounted_call = expected_call*m.exp(-rf*T)
+    expected_call = sum(call_payout)/iterations #expected call calucated by taking arithmetic mean of sampled call payouts
+    discounted_call = expected_call*m.exp(-rf*T) #discounting back to the present
 
     #storing expected call payouts to create histogram
     '''
@@ -34,7 +33,7 @@ def monte_carlo_put(iterations, stock = 250, strike = 260, rf= 0.08, q = 0.03, T
         stock_price.append(stock*m.exp(np.random.normal(mean, stdv))) #drawing random variable from normal dostribution
         put_payout.append(max(0, strike - stock_price[i])) 
     
-    expected_put = sum(put_payout)/iterations
+    expected_put = sum(put_payout)/iterations #expected put calucated by taking arithmetic mean of sampled put payouts
     discounted_put = expected_put*m.exp(-rf*T) #discounting back to the present
 
     #storing expected put payouts to create histogram
